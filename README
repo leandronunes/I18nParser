@@ -44,17 +44,18 @@ You will have 'en.yml', 'pt-br.yml', 'some.yml' files for translation
 
 === Files for Translations
 
-MAKE IT BETTER
+You could choose what files are going to be translated by plugin. The default file are that
+found on 'RAILS_ROOT/app' tree.
 
-If the path is not complete the directory will be created on RAILS_ROOT path
+If you wanna add another files you could do ...
 
-If you wanna add the files in lib directory you could follow ...
-1 -  I18nParser.files_path.join(RAILS_ROOT,'lib', '*')
+  1. I18nParser.files_path.join(RAILS_ROOT,'DIRECTORY', '*')
+  2. I18nParser.files_path = [File.join(RAILS_ROOT,'DIRECTORY', '*')]
+  3. I18nParser.files_path = [File.join(RAILS_ROOT,'DIRECTORY', '*'), File.join(RAILS_ROOT, 'app', '**','*')]
 
-2 - I18nParser.files_path = join(RAILS_ROOT,'lib', '*')
-
-Note that if you choose the option 2 you are going to subscribe the default files path that are the files on app
-directory. So use this option when you are really sure about that.
+  *Note:* If you choose the second option (2) you are going to overwrite the default files path 
+   that are that found in 'RAILS_ROOT/app' tree. So use this option when you are really sure about that or make
+   something like the third option (3).
 
 === Language Path directory
 
