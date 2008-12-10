@@ -1,0 +1,85 @@
+= I18nParser
+
+I18nParser makes a parse of your rails application code and extract the I18n symbols to be translated.
+
+== Get It
+
+On your application root.
+
+  cd vendor/plugins/
+
+  git clone gitosis@projects.safernet.org.br:i18n_parser.git
+
+= Usage
+
+On your application root run:
+
+  ./script/generate i18n_parser
+
+Your translations files will be created on RAILS_ROOT/lang folder.
+
+By default the I18nParser plugin create only the en.yml file.
+
+== Customizations
+
+Look at the topics and see the available customizations existing on plugin.
+
+=== Language
+
+Setting other languages...
+
+   I18nParserConfig.locales = ['en', 'pt-br', 'some']
+
+or...
+
+   I18nParserConfig.locales = ['pt-br', 'some']
+
+or...
+
+   I18nParserConfig.locales.push(['pt-br', 'some'])
+
+You will have 'en.yml', 'pt-br.yml', 'some.yml' files for translation
+
+  *Note:* The english language will always be available
+
+=== Files for Translations
+
+MAKE IT BETTER
+
+If the path is not complete the directory will be created on RAILS_ROOT path
+
+If you wanna add the files in lib directory you could follow ...
+1 -  I18nParser.files_path.join(RAILS_ROOT,'lib', '*')
+
+2 - I18nParser.files_path = join(RAILS_ROOT,'lib', '*')
+
+Note that if you choose the option 2 you are going to subscribe the default files path that are the files on app
+directory. So use this option when you are really sure about that.
+
+=== Language Path directory
+
+The files for translation are available on 'lang' folder by default, but you could set another directory as you wish.
+
+  I18nParserConfig.lang_dir = 'languages'
+
+  *Note:* The lang_dir path is relative to 'Root directory'
+
+=== Root directory
+
+By default the root directory used by plugin to generate the translations directory and keep the temporary files is the
+RAILS_ROOT. 
+
+You could change this behavior as following:
+
+  I18nParserConfig.root= 'ANOTHER_PATH'
+
+== Assumptions
+
+By default I18nParser assumes:
+
+  * I18nParserConfig.root = RAILS_ROOT
+  * I18nParserConfig.files_path = File.join(RAILS_ROOT,'app','**', '*')
+  * I18nParserConfig.locales = ['en']
+  * I18nParserConfig.lang_dir = File.join(RAILS_ROOT, 'lang')
+
+Copyright (c) 2008 Caio S.B.A, Leandro Nunes dos Santos, released under the MIT license
