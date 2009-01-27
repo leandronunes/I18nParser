@@ -29,21 +29,34 @@ module I18nParser #:nodoc:
 
             lang_path = File.join( I18nParserConfig.root, I18nParserConfig.lang_dir, lang + '.yml')
 
+            current_yaml_file = {}
             if File.exists?(lang_path)
               old_yaml_file = YAML.load_file(lang_path) || {}
-              current_yaml_file = new_yaml_file.merge(old_yaml_file)
+              current_yaml_file[lang] = new_yaml_file[lang].merge(old_yaml_file[lang])
             else
               current_yaml_file = new_yaml_file
             end
-
-            tmp_dir = File.join(I18nParserConfig.root,'tmp')
-            FileUtils.mkdir_p(tmp_dir) unless File.exists?(tmp_dir)
-            tmp_yaml_path = File.join(tmp_dir, lang + '_tmp.yml')
-            yaml_file = File.open(tmp_yaml_path, 'w+')
-            yaml_file.write(YAML.dump(current_yaml_file))
-            yaml_file.close
-            FileUtils.mv(tmp_yaml_path,lang_path)
+            write_file(lang, current_yaml_file)
           end
+        end
+
+        #FIXME Analyse why YAML.dump function didn't write the yml file correctly.
+        # Files with accentuation it puts a lot off crazy characters.
+        def write_file(lang, yaml_content)
+          tmp_dir = File.join(I18nParserConfig.root,'tmp')
+          FileUtils.mkdir_p(tmp_dir) unless File.exists?(tmp_dir)
+          tmp_yaml_path = File.join(tmp_dir, lang + '_tmp.yml')
+          yaml_file = File.open(tmp_yaml_path, 'w+')
+          yaml_file.write("---\n")
+          yaml_content.each do |lang, content| 
+            yaml_file.write(lang + ":\n")
+            content.each do |key, value|
+              yaml_file.write("  %s: \"%s\"\n" % [key,value])
+            end
+          end
+          yaml_file.close
+          lang_path = File.join( I18nParserConfig.root, I18nParserConfig.lang_dir, lang + '.yml')
+          FileUtils.mv(tmp_yaml_path,lang_path)
         end
       end
     end
