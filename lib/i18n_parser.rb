@@ -38,6 +38,7 @@ module I18nParser #:nodoc:
             end
             write_file(lang, current_yaml_file)
           end
+
         end
 
         #FIXME Analyse why YAML.dump function didn't write the yml file correctly.
